@@ -1,0 +1,23 @@
+{
+    "Values" : 
+    [
+        {"CurrentScene": {"EndMapId" : 0, "SceneName" : "Tower", "SceneArtisticName" : "Tower"} , "TargetScene": {"TargetEndMapId" : 2, "TargetSceneName" : "Forest1"}},
+        {"CurrentScene": {"EndMapId" : 1, "SceneName" : "Tower", "SceneArtisticName" : "Tower"} , "TargetScene": {"TargetEndMapId" : 1, "TargetSceneName" : "Forest1"}},
+
+        {"CurrentScene": {"EndMapId" : 0, "SceneName" : "Forest1", "SceneArtisticName" : "Forest1"} , "TargetScene": {"TargetEndMapId" : 0, "TargetSceneName" : "Graveyard"}},
+        {"CurrentScene": {"EndMapId" : 1, "SceneName" : "Forest1", "SceneArtisticName" : "Forest1"} , "TargetScene": {"TargetEndMapId" : 1, "TargetSceneName" : "Tower"}},
+        {"CurrentScene": {"EndMapId" : 2, "SceneName" : "Forest1", "SceneArtisticName" : "Forest1"} , "TargetScene": {"TargetEndMapId" : 0, "TargetSceneName" : "Tower"}},
+        {"CurrentScene": {"EndMapId" : 3, "SceneName" : "Forest1", "SceneArtisticName" : "Forest1"} , "TargetScene": {"TargetEndMapId" : 0, "TargetSceneName" : "Cave"}},
+        {"CurrentScene": {"EndMapId" : 4, "SceneName" : "Forest1", "SceneArtisticName" : "Forest1"} , "TargetScene": {"TargetEndMapId" : 1, "TargetSceneName" : "Graveyard"}},
+
+        {"CurrentScene": {"EndMapId" : 0, "SceneName" : "Graveyard", "SceneArtisticName" : "Graveyard"} , "TargetScene": {"TargetEndMapId" : 0, "TargetSceneName" : "Forest1"}},
+
+        {"CurrentScene": {"EndMapId" : 0, "SceneName" : "Cave", "SceneArtisticName" : "Cave"} , "TargetScene": {"TargetEndMapId" : 3, "TargetSceneName" : "Forest1"}},
+        {"CurrentScene": {"EndMapId" : 1, "SceneName" : "Cave", "SceneArtisticName" : "Cave"} , "TargetScene": {"TargetEndMapId" : 0, "TargetSceneName" : "Hell"}},
+        {"CurrentScene": {"EndMapId" : 2, "SceneName" : "Cave", "SceneArtisticName" : "Cave"} , "TargetScene": {"TargetEndMapId" : 0, "TargetSceneName" : "Ice"}},
+        {"CurrentScene": {"EndMapId" : 3, "SceneName" : "Cave", "SceneArtisticName" : "Cave"} , "TargetScene": {"TargetEndMapId" : 1, "TargetSceneName" : "Ice"}},
+
+        {"CurrentScene": {"EndMapId" : 0, "SceneName" : "Ice", "SceneArtisticName" : "Ice"} , "TargetScene": {"TargetEndMapId" : 2, "TargetSceneName" : "Cave"}},
+        {"CurrentScene": {"EndMapId" : 1, "SceneName" : "Ice", "SceneArtisticName" : "Ice"} , "TargetScene": {"TargetEndMapId" : 3, "TargetSceneName" : "Cave"}}
+    ]
+}
