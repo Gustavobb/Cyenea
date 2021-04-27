@@ -25,7 +25,7 @@ public class State
         this.conditionUpdateDelegate = func;
         this.onEnterStateDelegate = funcEnter;
         this.onExitStateDelegate = funcExit;
-        this.animator = entitygo.GetComponent<Animator>();
+        this.animator = entity.animator;
         this.stateMachine = stateMachine;
         this.animBoolName = animBoolName;
     }

@@ -69,6 +69,7 @@ public class Input_Joystick : MonoBehaviour
     }
     void Dash(InputAction.CallbackContext context){
         Debug.Log("DASH");
+        dash = true;
     }
     void Fly(InputAction.CallbackContext context){
         dash = true;

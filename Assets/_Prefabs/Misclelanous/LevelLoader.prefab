@@ -161,7 +161,7 @@ GameObject:
   - component: {fileID: 3431860841868668011}
   m_Layer: 0
   m_Name: LevelLoader
-  m_TagString: Untagged
+  m_TagString: SceneManeger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -193,6 +193,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3358f22c9e1799948892edf6b96de287, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jsonFile: {fileID: 4900000, guid: eedce4b5ca274414eaba4e2294b5ce3a, type: 3}
+  endMapid: 0
+  loadNextScene: 0
 --- !u!95 &3431860841868668011
 Animator:
   serializedVersion: 3

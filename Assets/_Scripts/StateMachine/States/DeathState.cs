@@ -12,8 +12,10 @@ public class DeathState : State
 
     public override void LogicUpdate()
     {
-        base.LogicUpdate();
     }
 
-    public override void PhysicsUpdate() => base.PhysicsUpdate();
+    public override void PhysicsUpdate() 
+    {
+
+    } 
 }

@@ -17,21 +17,31 @@ public class Player : LandbasedEntity
     protected RunState runState { get; set; }
     protected JumpState jumpState { get; set; }
     protected SpecialState specialState { get; set; }
-    protected DeathState deathState { get; set; }
+    public DeathState deathState { get; set; }
     #endregion
 
+    public AudioSource walkSound, hitSound, landSound, attackSound;
     public float minAlpha;
     public Input_Joystick IJ;
     public LayerMask interactionMask;
+    public ParticleSystem footDust, jumpDust;
     RaycastHit2D hit;
     float blinkTimer;
     float aplha;
+
+    public int maxHealth = 4;
+
+    public FadeMusic fadeMusic;
+
 
     #region Override functions
     protected override void Initialize()
     {
         base.Initialize();
+        footDust.Stop();
+        jumpDust.Stop();
         stateMachine.Initialize(idleState);
+        fadeMusic = GameObject.Find("MusicPlayer").GetComponent<FadeMusic>();
     }
 
     public override void MovementLogic()
@@ -46,7 +56,10 @@ public class Player : LandbasedEntity
         CheckJump();
         Flip();
 
-        // if (CastRay(new Vector2(FacingDirection, 0), "Enemies", .5f)) ApplyDamage(hit.collider.gameObject.GetComponent<Entity>().attackForce, hit.collider.gameObject.GetComponent<Entity>().FacingDirection);
+        if (CastRay(Vector2.down, "Spikes", .6f)) ApplyDamage(1, FacingDirection, mass, 10f);
+        if (CastRay(Vector2.up, "Spikes", .5f)) ApplyDamage(1, FacingDirection, mass, 10f);
+        if (CastRay(new Vector2(FacingDirection, 0), "Spikes", .3f)) ApplyDamage(1, -FacingDirection, mass, 10f);
+        if (CastRay(new Vector2(FacingDirection, 0), "Enemies", .3f)) ApplyDamage(1, -FacingDirection, mass, 10f);
     }
 
     protected override void CheckJump()
@@ -57,6 +70,7 @@ public class Player : LandbasedEntity
 
             if (isOnFloor || hangCounter > 0f)
             {
+                jumpDust.Play();
                 Jump();
                 hangCounter = 0f;
             }
@@ -67,8 +81,9 @@ public class Player : LandbasedEntity
         if (isOnFloor && jumpBufferCount > 0f) 
         {
             jumpBufferCount = 0f;
+            jumpDust.Play();
             Jump();
-        }
+        } 
     }
 
     protected override void HandleMovementDir()
@@ -104,7 +119,26 @@ public class Player : LandbasedEntity
 
     protected override void HitDummyEnter()
     {
-        StartCoroutine(Pause(.15f));
+        PlayHitSound();
+        
+        GameObject.Find("Main Camera").GetComponent<CameraShake>().ShakeCR(.05f, .015f);
+        int h = health;
+        
+        if (health <= 0) 
+        {
+            stateMachine.ChangeState(deathState);
+            h = maxHealth;
+        }
+        else StartCoroutine(Pause(.3f));
+
+        PlayerData data = SaveSystem.LoadPlayer();
+        SaveSystem.SavePlayer(data.activePlayerIdData, data.currentSpawnPointIdData, h, data.maxHealthData, data.manaData, data.obtainedPlayersNameData, data.doorsClosed);
+    }
+
+    public override void Attack()
+    {
+        base.Attack();
+        PlayAttackSound();
     }
     #endregion
 
@@ -139,6 +173,23 @@ public class Player : LandbasedEntity
 
     public virtual void SpecialStateCond() {}
 
+    public virtual void PlayRunSound() 
+    {
+        walkSound.pitch = Random.Range(2f, 3f);
+        walkSound.Play();
+    }
+
+    public virtual void PlayAttackSound() 
+    {
+        attackSound.pitch = Random.Range(.7f, 1.5f);
+        attackSound.Play();
+    }
+    public virtual void PlayHitSound() 
+    {
+        hitSound.pitch = Random.Range(.7f, 1.5f);
+        hitSound.Play();
+    }
+
     public virtual void DeathStateCond() {}
 
     protected virtual void HandleInvencibility()
@@ -160,6 +211,7 @@ public class Player : LandbasedEntity
     public bool CastRay(Vector2 t, string tg, float distance)
     {
         hit = Physics2D.Raycast((Vector2) transform.position, t, distance, interactionMask);
+        Debug.DrawRay((Vector2) transform.position, t * distance, Color.red);
         if (hit.collider != null && hit.collider.tag == tg) return true;
         return false;
     }
@@ -185,4 +237,23 @@ public class Player : LandbasedEntity
         stateMachine.ChangeState(idleState);
     }
     #endregion
+
+    public override IEnumerator WaitToDie(float time)
+    {
+        fadeMusic.StartFadeOut(fadeMusic.GetComponent<AudioSource>(), 3f);
+        yield return new WaitForSeconds(time/2);
+        float pauseEndTime = Time.realtimeSinceStartup + time/2;
+        while (Time.realtimeSinceStartup < pauseEndTime) 
+        {
+            float a = spriteRenderer.color.a - Time.deltaTime;
+            spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, a);
+            yield return 0;
+        }
+
+        PlayerData data = SaveSystem.LoadPlayer();
+        SaveSystem.SavePlayer(data.activePlayerIdData, data.currentSpawnPointIdData, data.healthData, data.maxHealthData, 0, data.obtainedPlayersNameData, data.doorsClosed);
+        pm.GetComponent<PlayerManegerScript>().checkMana();
+        levelLoader.GetComponent<SceneManeger>().ReloadScene();
+    }
+
 }

@@ -5,21 +5,27 @@ using UnityEngine;
 public class PlayerOgre : Player
 {
     bool wallSliding;
-    float wallSlideSpeedMax = 1;
+    float wallSlideSpeedMax = .5f;
     Vector2 wallJumpClimb = new Vector2(6f, 20f);
     Vector2 wallJumpOff = new Vector2(7f, 7f);
     Vector2 wallLeap = new Vector2(18f, 17f);
 
     #region Unity functions
+
+    protected override void Initialize()
+    {
+        base.Initialize();
+        coolDownTimer = pm.GetComponent<PlayerManegerScript>().coolDownAttackOgre;
+    }
     void Awake()
     {
         stateMachine = new StateMachine();
         attackState = new AttackState(AttackStateCond, () => {atacking = true;}, () => {atacking = false; if (isOnFloor) { velocityXSmoothing = 0; targetVelocityX = 0; velocity.x = 0;}}, this, gameObject, stateMachine, "Attack");
         idleState = new IdleState(IdleStateCond, () => {}, () => {}, this, gameObject, stateMachine, "Idle");
-        runState = new RunState(RunStateCond, () => {}, () => {}, this, gameObject, stateMachine, "Run");
-        jumpState = new JumpState(JumpStateCond, () => {if (velocity.y > 0) jumping = true;}, () => jumping = false, this, gameObject, stateMachine, "Jump");
+        runState = new RunState(RunStateCond, () => {footDust.Play();}, () => {footDust.Stop();}, this, gameObject, stateMachine, "Run");
+        jumpState = new JumpState(JumpStateCond, () => {if (velocity.y > 0) jumping = true;}, () => {jumping = false; if (isOnFloor) {jumpDust.Play(); landSound.pitch = Random.Range(.8f, .9f); landSound.Play();}}, this, gameObject, stateMachine, "Jump");
         specialState = new SpecialState(SpecialStateCond, () => {specialCond = false;}, () => {}, this, gameObject, stateMachine, "Special");
-        deathState = new DeathState(DeathStateCond, () => {}, () => {}, this, gameObject, stateMachine, "Death");
+        deathState = new DeathState(DeathStateCond, () => {GetComponent<BoxCollider2D>().enabled = false;StartCoroutine(Pause(.3f)); StartCoroutine(WaitToDie(2f));}, ()=>{}, this, gameObject, stateMachine, "Death");
     }
     #endregion
 
@@ -64,6 +70,13 @@ public class PlayerOgre : Player
     public override void SpecialStateCond()
     {
         if (!wallSliding) stateMachine.ChangeState(jumpState);
+    }
+
+    public override void Attack()
+    {
+        base.Attack();
+        pm.GetComponent<PlayerManegerScript>().coolDownAttackOgre = 0f;
+        pm.GetComponent<PlayerManegerScript>().cooldownBarOgre.SetActive(true);
     }
     #endregion
 }

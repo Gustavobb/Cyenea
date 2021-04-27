@@ -1,23 +1,330 @@
 {
-    "Values" : 
-    [
-        {"CurrentScene": {"EndMapId" : 0, "SceneName" : "Tower", "SceneArtisticName" : "Tower"} , "TargetScene": {"TargetEndMapId" : 2, "TargetSceneName" : "Forest1"}},
-        {"CurrentScene": {"EndMapId" : 1, "SceneName" : "Tower", "SceneArtisticName" : "Tower"} , "TargetScene": {"TargetEndMapId" : 1, "TargetSceneName" : "Forest1"}},
+  "scenes": [
+    {
+      "EndMapId": 0,
+      "SceneName": "Tower",
+      "SceneArtisticName": "Tower",
+      "TargetEndMapId": 2,
+      "TargetSceneName": "Forest1",
+      "TargetSceneId": 2
+    },
 
-        {"CurrentScene": {"EndMapId" : 0, "SceneName" : "Forest1", "SceneArtisticName" : "Forest1"} , "TargetScene": {"TargetEndMapId" : 0, "TargetSceneName" : "Graveyard"}},
-        {"CurrentScene": {"EndMapId" : 1, "SceneName" : "Forest1", "SceneArtisticName" : "Forest1"} , "TargetScene": {"TargetEndMapId" : 1, "TargetSceneName" : "Tower"}},
-        {"CurrentScene": {"EndMapId" : 2, "SceneName" : "Forest1", "SceneArtisticName" : "Forest1"} , "TargetScene": {"TargetEndMapId" : 0, "TargetSceneName" : "Tower"}},
-        {"CurrentScene": {"EndMapId" : 3, "SceneName" : "Forest1", "SceneArtisticName" : "Forest1"} , "TargetScene": {"TargetEndMapId" : 0, "TargetSceneName" : "Cave"}},
-        {"CurrentScene": {"EndMapId" : 4, "SceneName" : "Forest1", "SceneArtisticName" : "Forest1"} , "TargetScene": {"TargetEndMapId" : 1, "TargetSceneName" : "Graveyard"}},
+    {
+      "EndMapId": 1,
+      "SceneName": "Tower",
+      "SceneArtisticName": "Tower",
+      "TargetEndMapId": 1,
+      "TargetSceneName": "Forest1",
+      "TargetSceneId": 2
+    },
 
-        {"CurrentScene": {"EndMapId" : 0, "SceneName" : "Graveyard", "SceneArtisticName" : "Graveyard"} , "TargetScene": {"TargetEndMapId" : 0, "TargetSceneName" : "Forest1"}},
+    {
+      "EndMapId": 3,
+      "SceneName": "Tower",
+      "SceneArtisticName": "Tower",
+      "TargetEndMapId": 2,
+      "TargetSceneName": "Hell",
+      "TargetSceneId": 8
+    },
 
-        {"CurrentScene": {"EndMapId" : 0, "SceneName" : "Cave", "SceneArtisticName" : "Cave"} , "TargetScene": {"TargetEndMapId" : 3, "TargetSceneName" : "Forest1"}},
-        {"CurrentScene": {"EndMapId" : 1, "SceneName" : "Cave", "SceneArtisticName" : "Cave"} , "TargetScene": {"TargetEndMapId" : 0, "TargetSceneName" : "Hell"}},
-        {"CurrentScene": {"EndMapId" : 2, "SceneName" : "Cave", "SceneArtisticName" : "Cave"} , "TargetScene": {"TargetEndMapId" : 0, "TargetSceneName" : "Ice"}},
-        {"CurrentScene": {"EndMapId" : 3, "SceneName" : "Cave", "SceneArtisticName" : "Cave"} , "TargetScene": {"TargetEndMapId" : 1, "TargetSceneName" : "Ice"}},
+    {
+      "EndMapId": 0,
+      "SceneName": "Forest1",
+      "SceneArtisticName": "Forest1",
+      "TargetEndMapId": 0,
+      "TargetSceneName": "Graveyard",
+      "TargetSceneId": 6
+    },
 
-        {"CurrentScene": {"EndMapId" : 0, "SceneName" : "Ice", "SceneArtisticName" : "Ice"} , "TargetScene": {"TargetEndMapId" : 2, "TargetSceneName" : "Cave"}},
-        {"CurrentScene": {"EndMapId" : 1, "SceneName" : "Ice", "SceneArtisticName" : "Ice"} , "TargetScene": {"TargetEndMapId" : 3, "TargetSceneName" : "Cave"}}
-    ]
+    {
+      "EndMapId": 1,
+      "SceneName": "Forest1",
+      "SceneArtisticName": "Forest1",
+      "TargetEndMapId": 1,
+      "TargetSceneName": "Tower",
+      "TargetSceneId": 1
+    },
+
+    {
+      "EndMapId": 2,
+      "SceneName": "Forest1",
+      "SceneArtisticName": "Forest1",
+      "TargetEndMapId": 0,
+      "TargetSceneName": "Tower",
+      "TargetSceneId": 1
+    },
+
+    {
+      "EndMapId": 3,
+      "SceneName": "Forest1",
+      "SceneArtisticName": "Forest1",
+      "TargetEndMapId": 0,
+      "TargetSceneName": "Cave",
+      "TargetSceneId": 4
+    },
+
+    {
+      "EndMapId": 4,
+      "SceneName": "Forest1",
+      "SceneArtisticName": "Forest1",
+      "TargetEndMapId": 1,
+      "TargetSceneName": "Graveyard",
+      "TargetSceneId": 6
+    },
+
+    {
+      "EndMapId": 5,
+      "SceneName": "Forest1",
+      "SceneArtisticName": "Forest1",
+      "TargetEndMapId": 0,
+      "TargetSceneName": "Forest2",
+      "TargetSceneId": 3
+    },
+
+    {
+      "EndMapId": 0,
+      "SceneName": "Forest2",
+      "SceneArtisticName": "Forest2",
+      "TargetEndMapId": 5,
+      "TargetSceneName": "Forest1",
+      "TargetSceneId": 2
+    },
+
+    {
+      "EndMapId": 1,
+      "SceneName": "Forest2",
+      "SceneArtisticName": "Forest2",
+      "TargetEndMapId": 0,
+      "TargetSceneName": "Forest3",
+      "TargetSceneId": 11
+    },
+
+    {
+      "EndMapId": 0,
+      "SceneName": "Forest3",
+      "SceneArtisticName": "Forest3",
+      "TargetEndMapId": 1,
+      "TargetSceneName": "Forest2",
+      "TargetSceneId": 3
+    },
+
+
+    {
+      "EndMapId": 0,
+      "SceneName": "Cave",
+      "SceneArtisticName": "Cave",
+      "TargetEndMapId": 3,
+      "TargetSceneName": "Forest1",
+      "TargetSceneId": 2
+    },
+
+    {
+      "EndMapId": 1,
+      "SceneName": "Cave",
+      "SceneArtisticName": "Cave",
+      "TargetEndMapId": 0,
+      "TargetSceneName": "Cave2",
+      "TargetSceneId": 5
+    },
+    
+
+    {
+      "EndMapId": 2,
+      "SceneName": "Cave",
+      "SceneArtisticName": "Cave",
+      "TargetEndMapId": 0,
+      "TargetSceneName": "Ice",
+      "TargetSceneId": 7
+    },
+
+
+    {
+      "EndMapId": 0,
+      "SceneName": "Ice",
+      "SceneArtisticName": "Ice",
+      "TargetEndMapId": 2,
+      "TargetSceneName": "Cave",
+      "TargetSceneId": 4
+    },
+
+    {
+      "EndMapId": 1,
+      "SceneName": "Ice",
+      "SceneArtisticName": "Ice",
+      "TargetEndMapId": 2,
+      "TargetSceneName": "Graveyard",
+      "TargetSceneId": 6
+    },
+
+    {
+      "EndMapId": 2,
+      "SceneName": "Ice",
+      "SceneArtisticName": "Ice",
+      "TargetEndMapId": 0,
+      "TargetSceneName": "Ice2",
+      "TargetSceneId": 14
+    },
+
+    {
+      "EndMapId": 1,
+      "SceneName": "Ice",
+      "SceneArtisticName": "Ice",
+      "TargetEndMapId": 0,
+      "TargetSceneName": "Ice2",
+      "TargetSceneId": 14
+    },
+
+    {
+      "EndMapId": 0,
+      "SceneName": "Ice2",
+      "SceneArtisticName": "Ice2",
+      "TargetEndMapId": 1,
+      "TargetSceneName": "Ice",
+      "TargetSceneId": 7
+    },
+
+    {
+      "EndMapId": 1,
+      "SceneName": "Ice2",
+      "SceneArtisticName": "Ice2",
+      "TargetEndMapId": 3,
+      "TargetSceneName": "Ice",
+      "TargetSceneId": 7
+    },
+
+    {
+      "EndMapId": 0,
+      "SceneName": "Graveyard",
+      "SceneArtisticName": "Graveyard",
+      "TargetEndMapId": 0,
+      "TargetSceneName": "Forest1",
+      "TargetSceneId": 2
+    },
+
+    {
+      "EndMapId": 1,
+      "SceneName": "Graveyard",
+      "SceneArtisticName": "Graveyard",
+      "TargetEndMapId": 4,
+      "TargetSceneName": "Forest1",
+      "TargetSceneId": 2
+    },
+
+    {
+      "EndMapId": 2,
+      "SceneName": "Graveyard",
+      "SceneArtisticName": "Graveyard",
+      "TargetEndMapId": 1,
+      "TargetSceneName": "Ice",
+      "TargetSceneId": 7
+    },
+
+    {
+      "EndMapId": 3,
+      "SceneName": "Graveyard",
+      "SceneArtisticName": "Graveyard",
+      "TargetEndMapId": 0,
+      "TargetSceneName": "Graveyard2",
+      "TargetSceneId": 12
+    },
+
+    {
+      "EndMapId": 0,
+      "SceneName": "Graveyard2",
+      "SceneArtisticName": "Graveyard2",
+      "TargetEndMapId": 3,
+      "TargetSceneName": "Graveyard",
+      "TargetSceneId": 6
+    },
+
+    {
+      "EndMapId": 0,
+      "SceneName": "Cave2",
+      "SceneArtisticName": "Cave2",
+      "TargetEndMapId": 1,
+      "TargetSceneName": "Cave",
+      "TargetSceneId": 4
+    },
+
+    {
+      "EndMapId": 1,
+      "SceneName": "Cave2",
+      "SceneArtisticName": "Cave2",
+      "TargetEndMapId": 1,
+      "TargetSceneName": "Hell2",
+      "TargetSceneId": 13
+    },
+
+    {
+      "EndMapId": 2,
+      "SceneName": "Cave2",
+      "SceneArtisticName": "Cave2",
+      "TargetEndMapId": 1,
+      "TargetSceneName": "Hell",
+      "TargetSceneId": 8
+    },
+
+    {
+      "EndMapId": 3,
+      "SceneName": "Cave2",
+      "SceneArtisticName": "Cave2",
+      "TargetEndMapId": 0,
+      "TargetSceneName": "Cave3",
+      "TargetSceneId": 10
+    },
+
+    {
+      "EndMapId": 0,
+      "SceneName": "Cave3",
+      "SceneArtisticName": "Cave3",
+      "TargetEndMapId": 3,
+      "TargetSceneName": "Cave2",
+      "TargetSceneId": 5
+    },
+
+    {
+      "EndMapId": 0,
+      "SceneName": "Hell",
+      "SceneArtisticName": "Hell",
+      "TargetEndMapId": 0,
+      "TargetSceneName": "Hell2",
+      "TargetSceneId": 13
+    },
+
+    {
+      "EndMapId": 1,
+      "SceneName": "Hell",
+      "SceneArtisticName": "Hell",
+      "TargetEndMapId": 2,
+      "TargetSceneName": "Cave2",
+      "TargetSceneId": 5
+    },
+
+    {
+      "EndMapId": 2,
+      "SceneName": "Hell",
+      "SceneArtisticName": "Hell",
+      "TargetEndMapId": 3,
+      "TargetSceneName": "Tower",
+      "TargetSceneId": 1
+    },
+
+    {
+      "EndMapId": 0,
+      "SceneName": "Hell2",
+      "SceneArtisticName": "Hell2",
+      "TargetEndMapId": 0,
+      "TargetSceneName": "Hell",
+      "TargetSceneId": 8
+    },
+
+    {
+      "EndMapId": 1,
+      "SceneName": "Hell2",
+      "SceneArtisticName": "Hell2",
+      "TargetEndMapId": 1,
+      "TargetSceneName": "Cave2",
+      "TargetSceneId": 5
+    }
+  ]
 }

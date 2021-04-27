@@ -51,8 +51,7 @@ MonoBehaviour:
   collisionMask:
     serializedVersion: 2
     m_Bits: 4096
-  nextLevel: 
-  nextId: 0
+  sceneManager: {fileID: 0}
 --- !u!1 &6989049930104832886
 GameObject:
   m_ObjectHideFlags: 0

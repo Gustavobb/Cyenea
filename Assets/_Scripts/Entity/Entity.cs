@@ -8,7 +8,8 @@ public class Entity : MonoBehaviour
 {
     #region Components
     [HideInInspector]
-    private GameObject levelLoader;
+    protected GameObject levelLoader;
+    
     public Vector2 velocity;
     public Animator animator;
     public StateMachine stateMachine;
@@ -16,10 +17,17 @@ public class Entity : MonoBehaviour
     public Controller2D controller;
     public Transform attackPoint;
     public LayerMask attackLayers;
+    [HideInInspector]
+    public GameObject pm;
+
     #endregion
 
     #region Variables
     public int health = 1;
+
+    public int soul = 1;
+
+    public float mass = 1;
     public int attackForce = 1;
     public float invencibilityTimer = .2f;
     [HideInInspector]
@@ -36,15 +44,18 @@ public class Entity : MonoBehaviour
 
     #region Attack and Special
     public float attackRange = 0.5f;
-    protected float coolDownTimer = 0f;
-    protected float coolDownSpecialTimer = .45f;
+    public float coolDownTimer = 0f;
+    public float coolDownSpecialTimer = .5f;
     public float attackCoolDownMax = 1f;
     public float specialCoolDownMax = .5f;
     [HideInInspector]
     public bool atacking = false;
     [HideInInspector]
     public bool beenHit = false;
-    bool canBeHit = true;
+    [HideInInspector]
+    public bool canBeHit = true;
+    [HideInInspector]
+    public bool dead = false;
     #endregion
 
     #region Unity func
@@ -65,23 +76,14 @@ public class Entity : MonoBehaviour
     protected virtual void HandleAttackCond() {}
     protected virtual void HandleSpecialCond() {}
     protected virtual void HandleMovementDir() {}
-    
+
     protected virtual void Initialize() 
     {
         originalColor = spriteRenderer.color;
         FacingDirection = spriteRenderer.flipX ? -1 : 1;
         levelLoader = GameObject.Find("LevelLoader");
+        pm = GameObject.Find("PlayerManeger");
     } 
-
-    protected virtual void Die()
-    {
-        StartCoroutine(Pause(.15f));
-        
-        if (gameObject.tag == "Player")
-        {
-            levelLoader.GetComponent<ButtonManager>().ReloadScene();
-        }
-    }
 
     public virtual void OnAttackAnimationExit()
     {
@@ -90,24 +92,25 @@ public class Entity : MonoBehaviour
     #endregion
 
     #region Base func
-    public void ApplyDamage(int amount, int dir) 
+    public void ApplyDamage(int amount, int dir, float hitterMass, float yMult) 
     {
-        beenHit = true;
-
         if (canBeHit)
         {
-            HitDummyEnter();
-            health -= 1;
-            KnockBack(dir * amount);
+            beenHit = true;
+            health -= amount;
+            KnockBack(dir * hitterMass/mass, yMult);
             StartCoroutine(HitTimer(invencibilityTimer));
-            if (health <= 0) Die();
+            HitDummyEnter();
         }
     }
 
-    protected void KnockBack(int amount) 
+    protected void KnockBack(float amount, float yMult) 
     {
-        velocity.x = amount * 10f * Random.Range(.7f, 1f);
-        velocity.y = 10f * Random.Range(.6f, 1f);
+        if (health >= 0)
+        {
+            velocity.x = amount * 25f * Random.Range(.7f, 1f);
+            velocity.y = yMult * Random.Range(.6f, 1f);
+        }
     }
 
     public void Flip() 
@@ -143,6 +146,20 @@ public class Entity : MonoBehaviour
         while (Time.realtimeSinceStartup < pauseEndTime) yield return 0;
         Time.timeScale = 1;
         AfterTimeScale();
+    }
+
+    public virtual IEnumerator WaitToDie(float time)
+    {
+        yield return new WaitForSeconds(time/2);
+        float pauseEndTime = Time.realtimeSinceStartup + time/2;
+        while (Time.realtimeSinceStartup < pauseEndTime) 
+        {
+            float a = spriteRenderer.color.a - Time.deltaTime;
+            spriteRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, a);
+            yield return 0;
+        }
+
+        Destroy(gameObject);
     }
 
     IEnumerator HitTimer(float time)

@@ -14,6 +14,8 @@ public class PlayerPaladin : Player
 
     public GameObject ghostEffect;
     GhostEffectScript gEffectScript;
+    public AudioSource dashSound;
+    Vector3 targetPos;
 
     #region Unity functions
     void Awake()
@@ -21,18 +23,24 @@ public class PlayerPaladin : Player
         stateMachine = new StateMachine();
         attackState = new AttackState(AttackStateCond, () => {atacking = true;}, () => {atacking = false; if (isOnFloor) { velocityXSmoothing = 0; targetVelocityX = 0; velocity.x = 0;}}, this, gameObject, stateMachine, "Attack");
         idleState = new IdleState(IdleStateCond, () => {}, () => {}, this, gameObject, stateMachine, "Idle");
-        runState = new RunState(RunStateCond, () => {}, () => {}, this, gameObject, stateMachine, "Run");
-        jumpState = new JumpState(JumpStateCond, () => {if (velocity.y > 0) jumping = true;}, () => jumping = false, this, gameObject, stateMachine, "Jump");
+        runState = new RunState(RunStateCond, () => {footDust.Play();}, () => {footDust.Stop();}, this, gameObject, stateMachine, "Run");
+        jumpState = new JumpState(JumpStateCond, () => {if (velocity.y > 0) jumping = true;}, () => {jumping = false; if (isOnFloor) {jumpDust.Play(); landSound.pitch = Random.Range(.8f, .9f); landSound.Play();}}, this, gameObject, stateMachine, "Jump");
         specialState = new SpecialState(SpecialStateCond, OnEnterSpecialState, OnExitSpecialState, this, gameObject, stateMachine, "Special");
-        deathState = new DeathState(DeathStateCond, () => {}, () => {}, this, gameObject, stateMachine, "Death");
+        deathState = new DeathState(DeathStateCond, () => {GetComponent<BoxCollider2D>().enabled = false;StartCoroutine(Pause(.3f)); StartCoroutine(WaitToDie(2f));}, ()=>{}, this, gameObject, stateMachine, "Death");
     }
     #endregion
 
     #region Dash Functions
+    protected override void Initialize()
+    {
+        base.Initialize();
+        coolDownTimer = 10f;
+    }
     protected override void Special()
     {
         xMovement = lastXDir;
         targetVelocityX = xMovement * moveSpeed;
+        canBeHit = false;
         StartCoroutine(WaitToGhostEffect(.01f));
     }
 
@@ -44,6 +52,7 @@ public class PlayerPaladin : Player
 
     public void OnEnterSpecialState()
     {
+        // targetPos = transform.position + new Vector3(FacingDirection * 3.5f, 0, 0);
         originalAccelerationTimeAribone = accelerationTimeAirbone;
         originalGravity = gravity;
         originalMoveSpeed = moveSpeed;
@@ -70,6 +79,13 @@ public class PlayerPaladin : Player
         coolDownSpecialTimer = 0f;
         velocityXSmoothing = 0f;
         waited = false;
+        canBeHit = true;
+    }
+
+    public void PlayDashSound()
+    {
+        dashSound.pitch = Random.Range(.7f, .9f);
+        dashSound.Play();
     }
     #endregion
 

@@ -14,6 +14,9 @@ public class PlayerVampire : Player
 
     public GameObject ghostEffect;
     GhostEffectScript gEffectScript;
+    public AudioSource batSound;
+    Vector3 attackPointOriginalPos;
+    public AudioClip batWhooshClip;
 
     #region Unity functions
     void Awake()
@@ -21,14 +24,19 @@ public class PlayerVampire : Player
         stateMachine = new StateMachine();
         attackState = new AttackState(AttackStateCond, () => {atacking = true;}, () => {atacking = false; if (isOnFloor) { velocityXSmoothing = 0; targetVelocityX = 0; velocity.x = 0;}}, this, gameObject, stateMachine, "Attack");
         idleState = new IdleState(IdleStateCond, () => {}, () => {}, this, gameObject, stateMachine, "Idle");
-        runState = new RunState(RunStateCond, () => {}, () => {}, this, gameObject, stateMachine, "Run");
-        jumpState = new JumpState(JumpStateCond, () => {if (velocity.y > 0) jumping = true;}, () => jumping = false, this, gameObject, stateMachine, "Jump");
+        runState = new RunState(RunStateCond, () => {footDust.Play();}, () => {footDust.Stop();}, this, gameObject, stateMachine, "Run");
+        jumpState = new JumpState(JumpStateCond, () => {if (velocity.y > 0) jumping = true;}, () => {jumping = false; if (isOnFloor) {jumpDust.Play(); landSound.pitch = Random.Range(.8f, .9f); landSound.Play();}}, this, gameObject, stateMachine, "Jump");
         specialState = new SpecialState(SpecialStateCond, OnEnterSpecialState, OnExitSpecialState, this, gameObject, stateMachine, "Special");
-        deathState = new DeathState(DeathStateCond, () => {}, () => {}, this, gameObject, stateMachine, "Death");
+        deathState = new DeathState(DeathStateCond, () => {GetComponent<BoxCollider2D>().enabled = false;StartCoroutine(Pause(.3f)); StartCoroutine(WaitToDie(2f));}, ()=>{}, this, gameObject, stateMachine, "Death");
     }
     #endregion
 
     #region Dash Functions
+    protected override void Initialize()
+    {
+        base.Initialize();
+        coolDownTimer = 10f;
+    }
     protected override void Special()
     {
         xMovement = lastXDir;
@@ -45,13 +53,16 @@ public class PlayerVampire : Player
         Special();
         FacingDirection = lastXDir;
         spriteRenderer.flipX = FacingDirection == 1 ? false : true;
-        
+        attackPoint.localPosition = attackPointOriginalPos;
         bool cond = CastRay(new Vector2(FacingDirection, 0), "Enemies", 1.5f) || controller.collisions.left || controller.collisions.right;
-        if (cond || specialCond) stateMachine.ChangeState(runState);
+        if (cond || specialCond || beenHit) stateMachine.ChangeState(runState);
     }
 
     public void OnEnterSpecialState()
     {
+        attackPointOriginalPos = attackPoint.localPosition;
+        batSound.pitch = Random.Range(0.8f, 1.1f);
+        batSound.Play();
         originalAccelerationTimeAribone = accelerationTimeAirbone;
         originalGravity = gravity;
         originalMoveSpeed = moveSpeed;
@@ -69,6 +80,11 @@ public class PlayerVampire : Player
         accelerationTimeAirbone = originalAccelerationTimeAribone;
         gravity = originalGravity;
         coolDownSpecialTimer = 0f;
+    }
+
+    public void PlayBatWhoosh()
+    {  
+       AudioSource.PlayClipAtPoint(batWhooshClip, this.gameObject.transform.position, 1f);
     }
     #endregion
 

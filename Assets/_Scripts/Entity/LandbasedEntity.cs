@@ -11,7 +11,8 @@ public class LandbasedEntity : Entity
     protected bool jumpTrigger = false;
     protected bool wasOnFloor = false;
     protected float jumpVelocity;
-    protected float gravity;
+    [HideInInspector]
+    public float gravity;
     #endregion
 
     #region Grounded
@@ -64,7 +65,8 @@ public class LandbasedEntity : Entity
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.transform.position, attackRange, attackLayers);
         foreach (Collider2D enemy in hitEnemies)
         {
-            enemy.gameObject.GetComponent<Entity>().ApplyDamage(attackForce, FacingDirection);
+            Entity e = enemy.gameObject.GetComponent<Entity>();
+            e.ApplyDamage(attackForce, FacingDirection, mass, 10f);
         }
     }
     #endregion

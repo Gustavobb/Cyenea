@@ -8,7 +8,7 @@ public class CameraMov : MonoBehaviour
 {
     public Vector2 followOffset;
     public Vector2 speed;
-    public SwitchManegerScript sws;
+    public PlayerManegerScript ps;
     public float vel = 7f;
     private Vector2 threshold;
     private Rigidbody2D rb;
@@ -22,7 +22,8 @@ public class CameraMov : MonoBehaviour
     private void Start() {
         threshold = CalculateThreshold();
         followObject = GameObject.FindWithTag("Player");
-        sws.playerSwitch += FindPlayer;
+        ps.playerSwitch += FindPlayer;
+        transform.position = new Vector3(followObject.transform.position.x, followObject.transform.position.y, transform.position.z);
     }
     private void FixedUpdate() {
         speed = followObject.GetComponent<LandbasedEntity>().velocity;
@@ -77,6 +78,6 @@ public class CameraMov : MonoBehaviour
 
     public void FindPlayer()
     {
-        followObject = sws.newPlayer;
+        followObject = ps.newPlayer;
     }
 }
